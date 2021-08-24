@@ -9,12 +9,15 @@
           <h3>{{ data.location.name }}</h3>
           <p>{{ time }} - {{ day }}</p>
         </div>
-        <img src="" alt="" />
+        <img v-bind:src="data.current.condition.icon" alt="wheater-icon" />
       </div>
     </div>
     <div class="rightBox">
       <div class="wheater-search">
         <input type="text" placeholder="Another Location" />
+        <span @click="changeLocation('Pangandaran West')">Pangandaran</span>
+        <span @click="changeLocation('Jakarta')">Jakarta</span>
+        <span @click="changeLocation('Bandung')">Bandung</span>
       </div>
       <div class="wheater-detail">
         <h1>Wheater Detail</h1>
@@ -40,31 +43,29 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState, mapMutations } from "vuex";
 
 export default {
-  //   data() {
-  //     return {
-  //       interval: null,
-  //     };
-  //   },
-  //   beforeUnmount() {
-  //     // prevent memory leak
-  //     clearInterval(this.interval);
-  //   },
-  //   created() {
-  //     // update the time every second
-  //     this.interval = setInterval(() => {
-  //       this.getAPI();
-  //     }, 1000);
-  //   },
+  data() {
+    return {
+      interval: null,
+    };
+  },
+  beforeUnmount() {
+    // prevent memory leak
+    clearInterval(this.interval);
+  },
   created() {
-    this.getAPI();
+    // update the time every second
+    this.interval = setInterval(() => {
+      this.getAPI();
+    }, 1000);
   },
   computed: {
     ...mapState(["data", "time", "day"]),
   },
   methods: {
+    ...mapMutations(["changeLocation"]),
     ...mapActions(["getAPI"]),
   },
 };
@@ -113,11 +114,14 @@ export default {
   flex: 1;
   display: flex;
   flex-direction: column;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(20px);
 }
 .container .rightBox .wheater-search {
   flex: 1;
+  display: flex;
+  flex-direction: column;
 }
+
 .container .rightBox .wheater-search > input {
   width: 80%;
   padding: 10px;
@@ -126,6 +130,13 @@ export default {
   color: #fff;
   outline: none;
   border-bottom: 1px solid white;
+  margin-bottom: 20px;
+}
+.container .rightBox .wheater-search > span {
+  margin: 10px;
+  padding: 10px;
+  width: fit-content;
+  cursor: pointer;
 }
 .container .rightBox .wheater-search > input::placeholder {
   color: #fff;
