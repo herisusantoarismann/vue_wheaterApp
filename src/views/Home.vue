@@ -1,6 +1,6 @@
 <template>
   <div v-if="data === ''"><p>KOSONG</p></div>
-  <div class="container" v-else>
+  <div class="container" :class="bg" v-else>
     <div class="leftBox">
       <h1>Wheater App</h1>
       <div class="wheater">
@@ -60,6 +60,7 @@ export default {
     return {
       interval: null,
       inputLocation: "",
+      bg: "",
     };
   },
   beforeUnmount() {
@@ -70,6 +71,14 @@ export default {
     // update the time every second
     this.interval = setInterval(() => {
       this.getAPI();
+      let condition = this.data.current.condition.text.toLowerCase();
+      if (condition.indexOf("cloud") > -1 || condition.indexOf("mist") > -1) {
+        this.bg = "cloudy";
+      } else if (condition.indexOf("rain") > -1) {
+        this.bg = "rain";
+      } else {
+        this.bg = "sunny";
+      }
     }, 1000);
   },
   computed: {
@@ -99,10 +108,19 @@ export default {
   width: 100vw;
   height: 100vh;
   display: flex;
-  background-image: url("../assets/bg-rain.jpg");
+
   background-position: center;
   background-size: cover;
   color: aliceblue;
+}
+.container.rain {
+  background-image: url("../assets/bg-rain.jpg");
+}
+.container.cloudy {
+  background-image: url("../assets/bg-cloudy.jpg");
+}
+.container.sunny {
+  background-image: url("../assets/bg-sunny.jpg");
 }
 .container .leftBox {
   width: 100%;
