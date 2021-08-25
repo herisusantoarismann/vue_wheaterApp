@@ -187,4 +187,119 @@ export default {
   align-items: center;
   margin-bottom: 50px;
 }
+
+@media only screen and (max-width: 1024px) {
+  .container .leftBox .wheater {
+    padding: 10px;
+  }
+  .container .leftBox .wheater > h3 {
+    font-size: 5rem;
+  }
+  .container .leftBox .wheater .wheater-time > h3 {
+    font-size: 2rem;
+    min-width: 180px;
+  }
+  .container .leftBox .wheater .wheater-time > p {
+    font-size: 0.8rem;
+  }
+  .container .rightBox .wheater-search .location-list > span {
+    margin: 5px;
+  }
+  .container .rightBox .wheater-detail > h1 {
+    margin-bottom: 50px;
+  }
+  .container .rightBox .wheater-detail .wheater-detail-item {
+    margin-bottom: 40px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .container .leftBox .wheater > h3 {
+    font-size: 3rem;
+  }
+  .container .leftBox .wheater .wheater-time > h3 {
+    font-size: 1.7rem;
+  }
+  .container .rightBox {
+    padding: 25px;
+  }
+  .container .rightBox .wheater-search .location-list > span {
+    font-size: 0.95rem;
+  }
+  .container .rightBox .wheater-detail > h1 {
+    font-size: 1.4rem;
+  }
+  .container .rightBox .wheater-detail .wheater-detail-item > p {
+    font-size: 0.9rem;
+  }
+  .container .rightBox .wheater-detail .wheater-detail-item > p:first-of-type {
+    flex: 1;
+  }
+  .container .rightBox .wheater-detail .wheater-detail-item > p:last-of-type {
+    flex: 1;
+    text-align: end;
+  }
+}
+
+@media only screen and (max-width: 425px) {
+  .container {
+    flex-wrap: wrap;
+    height: 195vh;
+    flex-direction: column;
+  }
+  .container .leftBox {
+    padding: 30px;
+  }
+  .container .rightBox .wheater-search {
+    min-height: 376px;
+  }
+  .container .rightBox .wheater-detail .wheater-detail-item {
+    margin-bottom: 40px;
+  }
+}
+
+@media only screen and (max-width: 411px) {
+  .container {
+    height: 200vh;
+  }
+}
+
+@media only screen and (max-width: 375px) {
+  .container {
+    height: 195vh;
+  }
+  .container .leftBox {
+    padding: 25px;
+  }
+  .container .leftBox .wheater > h3 {
+    font-size: 2rem;
+  }
+  .container .leftBox .wheater .wheater-time > h3 {
+    font-size: 1.5rem;
+  }
+}
+
+@media only screen and (max-width: 360px) {
+  .container {
+    height: 215vh;
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  .container {
+    height: 195vh;
+  }
+  .container .leftBox {
+    padding: 15px;
+  }
+  .container .leftBox .wheater > h3 {
+    font-size: 1.5rem;
+  }
+  .container .leftBox .wheater .wheater-time > h3 {
+    font-size: 1.2rem;
+  }
+  .container .leftBox .wheater > img {
+    width: 50px;
+  }
+}
 </style>
