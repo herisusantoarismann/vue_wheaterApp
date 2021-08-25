@@ -8,10 +8,23 @@ const store = createStore({
     data: "",
     time: "",
     day: "",
+    locationList: ["Pangandaran West", "Jakarta", "Bandung"],
   },
   mutations: {
     changeLocation(state, payload) {
       state.location = payload;
+      const idxLoc = state.locationList.indexOf(payload);
+      if (idxLoc >= 0) {
+        state.locationList.splice(idxLoc, 1);
+        state.locationList.unshift(payload);
+      } else {
+        if (state.locationList.length < 5) {
+          state.locationList.unshift(payload);
+        } else {
+          state.locationList.unshift(payload);
+          state.locationList.pop();
+        }
+      }
     },
     getWheater(state, payload) {
       state.data = payload;

@@ -14,10 +14,20 @@
     </div>
     <div class="rightBox">
       <div class="wheater-search">
-        <input type="text" placeholder="Another Location" />
-        <span @click="changeLocation('Pangandaran West')">Pangandaran</span>
-        <span @click="changeLocation('Jakarta')">Jakarta</span>
-        <span @click="changeLocation('Bandung')">Bandung</span>
+        <input
+          type="text"
+          placeholder="Another Location"
+          v-on:keyup.enter="changeLocation(inputLocation)"
+          v-model="inputLocation"
+        />
+        <div class="location-list">
+          <span
+            v-for="(item, index) in locationList"
+            :key="index"
+            @click="changeLocation(item)"
+            >{{ item }}</span
+          >
+        </div>
       </div>
       <div class="wheater-detail">
         <h1>Wheater Detail</h1>
@@ -35,7 +45,7 @@
         </div>
         <div class="wheater-detail-item">
           <p>Air Quality</p>
-          <p>{{ data.current.air_quality["us-epa-index"] }}</p>
+          <p>{{ changeAQ(data.current.air_quality["us-epa-index"]) }}</p>
         </div>
       </div>
     </div>
@@ -49,6 +59,7 @@ export default {
   data() {
     return {
       interval: null,
+      inputLocation: "",
     };
   },
   beforeUnmount() {
@@ -62,11 +73,23 @@ export default {
     }, 1000);
   },
   computed: {
-    ...mapState(["data", "time", "day"]),
+    ...mapState(["data", "time", "day", "locationList"]),
   },
   methods: {
     ...mapMutations(["changeLocation"]),
     ...mapActions(["getAPI"]),
+    changeAQ(idx) {
+      const AQ_Desc = [
+        "Good",
+        "Moderate",
+        "Unhealthy (if sensitive)",
+        "Unhealthy",
+        "Very unhealthy",
+        "Hazardous",
+      ];
+
+      return AQ_Desc[idx - 1];
+    },
   },
 };
 </script>
@@ -121,7 +144,6 @@ export default {
   display: flex;
   flex-direction: column;
 }
-
 .container .rightBox .wheater-search > input {
   width: 80%;
   padding: 10px;
@@ -132,7 +154,14 @@ export default {
   border-bottom: 1px solid white;
   margin-bottom: 20px;
 }
-.container .rightBox .wheater-search > span {
+.container .rightBox .wheater-search .location-list {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  height: 70%;
+  scrollbar-width: thin;
+}
+.container .rightBox .wheater-search .location-list > span {
   margin: 10px;
   padding: 10px;
   width: fit-content;
