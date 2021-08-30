@@ -1,73 +1,23 @@
 <template>
-  <div v-if="data === ''">
-    <div class="bg-loader">
-      <div class="loader">
-        <span>L</span>
-        <span>O</span>
-        <span>A</span>
-        <span>D</span>
-        <span>I</span>
-        <span>N</span>
-        <span>G</span>
-      </div>
-    </div>
-  </div>
+  <div v-if="data === ''"><Loading /></div>
   <div class="container" :class="bg" v-else>
-    <div class="leftBox">
-      <h1>Wheater App</h1>
-      <div class="wheater">
-        <h3>{{ Math.round(data.current.temp_c) }}&#8451;</h3>
-        <div class="wheater-time">
-          <h3>{{ data.location.name }}</h3>
-          <p>{{ time }} - {{ day }}</p>
-        </div>
-        <img v-bind:src="data.current.condition.icon" alt="wheater-icon" />
-      </div>
-    </div>
-    <div class="rightBox">
-      <div class="wheater-search">
-        <input
-          type="text"
-          placeholder="Another Location"
-          v-on:keyup.enter="changeLocation(inputLocation)"
-          v-model="inputLocation"
-        />
-        <div class="location-list">
-          <span
-            v-for="(item, index) in locationList"
-            :key="index"
-            @click="changeLocation(item)"
-            >{{ item }}</span
-          >
-        </div>
-      </div>
-      <div class="wheater-detail">
-        <h1>Wheater Detail</h1>
-        <div class="wheater-detail-item">
-          <p>Cloudy</p>
-          <p>{{ data.current.cloud }}</p>
-        </div>
-        <div class="wheater-detail-item">
-          <p>Humidity</p>
-          <p>{{ data.current.humidity }}</p>
-        </div>
-        <div class="wheater-detail-item">
-          <p>Wind</p>
-          <p>{{ data.current.wind_mph }}m/ph</p>
-        </div>
-        <div class="wheater-detail-item">
-          <p>Air Quality</p>
-          <p>{{ changeAQ(data.current.air_quality["us-epa-index"]) }}</p>
-        </div>
-      </div>
-    </div>
+    <LeftBox />
+    <RightBox />
   </div>
 </template>
 
 <script>
-import { mapActions, mapState, mapMutations } from "vuex";
+import Loading from "../components/Loading.vue";
+import LeftBox from "../components/LeftBox.vue";
+import RightBox from "../components/RightBox.vue";
+import { mapActions, mapState } from "vuex";
 
 export default {
+  components: {
+    Loading,
+    LeftBox,
+    RightBox,
+  },
   data() {
     return {
       interval: null,
@@ -94,23 +44,10 @@ export default {
     }, 1000);
   },
   computed: {
-    ...mapState(["data", "time", "day", "locationList"]),
+    ...mapState(["data"]),
   },
   methods: {
-    ...mapMutations(["changeLocation"]),
     ...mapActions(["getAPI"]),
-    changeAQ(idx) {
-      const AQ_Desc = [
-        "Good",
-        "Moderate",
-        "Unhealthy (if sensitive)",
-        "Unhealthy",
-        "Very unhealthy",
-        "Hazardous",
-      ];
-
-      return AQ_Desc[idx - 1];
-    },
   },
 };
 </script>
@@ -331,64 +268,6 @@ export default {
   }
   .container .leftBox .wheater > img {
     width: 50px;
-  }
-}
-.bg-loader {
-  background: rgb(212, 194, 194);
-  min-height: 100vh;
-  min-width: 100vw;
-}
-.loader {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
-}
-.loader span {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 30px;
-  color: aliceblue;
-  display: inline-block;
-  transition: all 0.5s;
-  animation: animate 2s infinite;
-}
-.loader span:nth-child(1) {
-  animation-delay: 0.1s;
-}
-.loader span:nth-child(2) {
-  animation-delay: 0.2s;
-}
-.loader span:nth-child(3) {
-  animation-delay: 0.3s;
-}
-.loader span:nth-child(4) {
-  animation-delay: 0.4s;
-}
-.loader span:nth-child(5) {
-  animation-delay: 0.5s;
-}
-.loader span:nth-child(6) {
-  animation-delay: 0.6s;
-}
-.loader span:nth-child(7) {
-  animation-delay: 0.7s;
-}
-@keyframes animate {
-  0% {
-    color: aliceblue;
-    transform: translateY(0);
-    margin-left: 0;
-  }
-  25% {
-    color: aliceblue;
-    transform: translateY(-15px);
-    margin-left: 10px;
-    text-shadow: 0 15px 5px rgba(0, 0, 0, 1);
-  }
-  100% {
-    color: aliceblue;
-    transform: translateY(0);
-    margin-left: 0;
   }
 }
 </style>
