@@ -30,6 +30,7 @@ export default {
     clearInterval(this.interval);
   },
   created() {
+    document.title = "Vue Wheater";
     // update the time every second
     this.interval = setInterval(() => {
       this.getAPI();
