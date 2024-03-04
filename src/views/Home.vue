@@ -34,7 +34,9 @@ export default {
     // update the time every second
     this.interval = setInterval(() => {
       this.getAPI();
-      let condition = this.data.current.condition.text.toLowerCase();
+      let condition = this.data
+        ? this.data.current.condition.text.toLowerCase()
+        : "sunny";
       if (condition.indexOf("cloud") > -1 || condition.indexOf("mist") > -1) {
         this.bg = "cloudy";
       } else if (condition.indexOf("rain") > -1) {
